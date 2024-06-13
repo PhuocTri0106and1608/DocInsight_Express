@@ -1,4 +1,4 @@
-name: Deploy Infrastructure and build release node js application
+name: Deploy Infrastructure and build release node js express application
 
 on:
   push:
