@@ -1,0 +1,27 @@
+name: Deploy Infrastructure and build release node js application
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  infrastructure:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2 # This will obtain all the code for you in your repository
+
+      - name: Setup Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }} # Ensure you create a AZURE_CREDENTIALS secret object in your Github secrets and variables
+
+      - name: Deploy or update infrastructure
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }} # If you have multiple subscriptions this will switch to the correct subscription for you
+          resourceGroupName: ${{ vars.NODEJS_RG }} # This doesn't have to be a variable, you could also hard code this, but ensure you create a variable if you use this approach
+          template: ./devops/dev/main.dev.bicep # This is an assumed directory structure ensure you change to the correct directory as well as rename environment to uat or prod etc
+          parameters: ./devops/dev/main.dev.bicepparam
+          failOnStdErr: false
