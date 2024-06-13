@@ -1,0 +1,7 @@
+lungs-finder
+pickle
+shap
+numpy
+matplotlib 
+tensorflow
+opencv-python
