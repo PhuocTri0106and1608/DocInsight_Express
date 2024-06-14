@@ -36,13 +36,18 @@ jobs:
         with:
           node-version: '18.x'
       
-      - name: pip install, npm install, build, and test
+      - name: npm install, build, and test
         run: | 
           cd DocInSightBE
-          pip install DocInSightBE\pythonFile\requirements.txt
           npm install
           npm run build --if-present
           npm run test --if-present
+      - name: Install Python dependencies
+        run: |
+          pip install -r DocInSightBE/pythonFile/requirements.txt
+          npm run build --if-present
+          npm run test --if-present
+        
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
