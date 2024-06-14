@@ -1,5 +1,4 @@
 lungs-finder
-pickle
 shap
 numpy
 matplotlib 
