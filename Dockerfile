@@ -17,7 +17,7 @@ ENV PATH="/opt/venv/bin:$PATH"
 RUN npm install --legacy-peer-deps
 
 # Activate the virtual environment to install Python libraries
-SHELL ["/bin/sh", "-c", "source /opt/venv/bin/activate && pip install lungs-finder shap numpy matplotlib tensorflow==2.3.1 opencv-python"]
+SHELL ["/bin/sh", "-c", "source /opt/venv/bin/activate && pip install -r ./pythonFile/requirements.txt"]
 
 # Prepare for production
 ENV NODE_ENV production
@@ -25,4 +25,4 @@ EXPOSE 80
 
 # Start the application
 
-CMD [ "npm", "start", "-host=0.0.0.0"]
+CMD [ "npm", "start", "--host=0.0.0.0"]

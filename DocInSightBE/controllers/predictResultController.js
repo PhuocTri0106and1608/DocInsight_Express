@@ -5,7 +5,19 @@ import PredictResult from "../models/PredictResult.js";
 import executePython from "../middlewares/excutePython.js";
 import BadRequestError from "../errors/badRequestError.js";
 
-const getResults = async (req, res) => {
+const getRecentResults = async (req, res) => {
+    const { quantity } = req.params;
+    try {
+        const results = await PredictResult.find({ isDeleted: false }).limit(quantity);
+        if (results.length === 0) {
+            throw new NotFoundError("Not found any result");
+        }
+        res.status(200).json(results);
+    } catch (err) {
+        throw err;
+    }
+};
+const getResultsByPatient = async (req, res) => {
     const { patientId } = req.params;
     try {
         const results = await PredictResult.find({ isDeleted: false, patientId: patientId });
@@ -138,4 +150,4 @@ const deleteResult = async (req, res) => {
     }
 };
 
-export { getResults, getResult, postResult, deleteResult};
+export { getRecentResults, getResultsByPatient, getResult, postResult, deleteResult};
