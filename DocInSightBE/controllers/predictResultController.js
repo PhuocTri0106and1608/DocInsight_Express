@@ -4,11 +4,27 @@ import cloudinary from "../helper/imageUpload.js";
 import PredictResult from "../models/PredictResult.js";
 import executePython from "../middlewares/excutePython.js";
 import BadRequestError from "../errors/badRequestError.js";
+import Patient from "../models/Patient.js";
 
-const getRecentResults = async (req, res) => {
-    const { quantity } = req.params;
+const getResultsByDoctor = async (req, res) => {
+    const { doctorId } = req.params;
     try {
-        const results = await PredictResult.find({ isDeleted: false }).limit(quantity);
+        const patients = await Patient.find({ isDeleted: false, doctorId: doctorId });
+        if (patients.length === 0) {
+            throw new NotFoundError("Not found any patient of this doctor");
+        }
+        var results = [];
+        await Promise.all(
+            patients.map(async (patient) => {
+                const patientResults = await PredictResult.find({ isDeleted: false, patientId: patient._id }).populate("patientId");
+                if(patientResults.length !== 0)
+                {
+                    patientResults.map(result => {
+                        results.push(result);
+                    });
+                }
+            })
+          );
         if (results.length === 0) {
             throw new NotFoundError("Not found any result");
         }
@@ -150,4 +166,4 @@ const deleteResult = async (req, res) => {
     }
 };
 
-export { getRecentResults, getResultsByPatient, getResult, postResult, deleteResult};
+export { getResultsByDoctor, getResultsByPatient, getResult, postResult, deleteResult};
