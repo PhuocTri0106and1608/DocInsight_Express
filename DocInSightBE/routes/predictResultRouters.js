@@ -4,8 +4,8 @@ import uploads from "../middlewares/image.js";
 
 const resultRouter = Router();
 
-resultRouter.get('/results/:doctorId',getResultsByDoctor);
-resultRouter.get('/results/:patientId',getResultsByPatient);
+resultRouter.get('/results-by-doctor/:doctorId',getResultsByDoctor);
+resultRouter.get('/results-by-patient/:patientId',getResultsByPatient);
 resultRouter.get('/result/:id',getResult);
 resultRouter.post('/result',uploads.single("inputImage"),postResult);
 resultRouter.delete('/result/:id',deleteResult);
