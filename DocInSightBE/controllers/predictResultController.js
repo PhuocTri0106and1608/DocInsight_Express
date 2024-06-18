@@ -36,7 +36,7 @@ const getResultsByDoctor = async (req, res) => {
 const getResultsByPatient = async (req, res) => {
     const { patientId } = req.params;
     try {
-        const results = await PredictResult.find({ isDeleted: false, patientId: patientId });
+        const results = await PredictResult.find({ isDeleted: false, patientId: patientId }).populate('patientId');
         if (!results) {
             throw new NotFoundError("Not found any result");
         }
