@@ -9,6 +9,7 @@ import {
   passwordResetTemplate,
 } from "../utils/mail.js";
 import ResetToken from "../models/ResetToken.js";
+import Patient from "../models/Patient.js";
 
 // init password validator
 let passwordSchema = new PasswordValidator();
@@ -135,6 +136,13 @@ const deleteUser = async (req, res) => {
       { isDeleted: true},
       { new: true }
     );
+    const patients = await Patient.find({ doctorId: id, isDeleted: false });
+    if (patients.length !== 0){
+      patients.map(async (pa) => {
+        pa.isDeleted = true;
+        await pa.save();
+      });
+    }
     res.status(200).json({
       message: "Deleted user successfully",
       user: user,

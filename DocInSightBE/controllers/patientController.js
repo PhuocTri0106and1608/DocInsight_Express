@@ -1,6 +1,7 @@
 import BadRequestError from "../errors/badRequestError.js";
 import NotFoundError from "../errors/notFoundError.js";
 import Patient from "../models/Patient.js";
+import PredictResult from "../models/PredictResult.js";
 
 const getPatients = async (req, res) => {
     const { doctorId } = req.params;
@@ -92,6 +93,13 @@ const deletePatient = async (req, res) => {
     const { id } = req.params;
     try {
         const patient = await Patient.findByIdAndUpdate(id, { isDeleted: true });
+        const predictResults = await PredictResult.find({ patientId: id, isDeleted: false });
+        if (predictResults.length !== 0){
+            predictResults.map(async (pre) => {
+                pre.isDeleted = true;
+                await pre.save();
+            });
+        }
         res.status(200).json({
             message: "Deleted patient successfully",
             patient: patient,

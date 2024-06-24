@@ -95,12 +95,12 @@ const OtpTemplate = (OTP) => {
                     <div style="padding: 20px; background-color: rgb(255, 255, 255);">
                         <div style="color: rgb(0, 0, 0); text-align: center;">
                         <h1 style="margin: 1rem 0">Email verification</h1>
-                        <p style="padding-bottom: 16px">Thank you for choosing HRManagement. Use this OTP to complete your authentication procedures and
-                            verify your account on HRManagement.</p>
+                        <p style="padding-bottom: 16px">Thank you for choosing DocInsight. Use this OTP to complete your authentication procedures and
+                            verify your account on DocInsight.</p>
                         <h2>OTP: ${OTP}</h2>
     
                         <p style="padding-bottom: 16px">If you didn’t ask to verify this address, you can ignore this email.</p>
-                        <p style="padding-bottom: 16px">Thanks,<br>The HRManagement team</p>
+                        <p style="padding-bottom: 16px">Thanks,<br>The DocInsight team</p>
                         </div>
                     </div>
                     <div style="padding-top: 20px; color: rgb(153, 153, 153); text-align: center;">
@@ -241,8 +241,8 @@ const passwordResetTemplate = () => {
                     <div style="padding: 20px; background-color: rgb(255, 255, 255);">
                         <div style="color: rgb(0, 0, 0); text-align: center;">
                         <h1 style="margin: 1rem 0">Reset Password Successfully</h1>
-                        <p style="padding-bottom: 16px">Congratulation for reset your HRManagement account's password successfully. Welcome back to our team.</p>
-                        <p style="padding-bottom: 16px">We look forward to seeing you,<br>The HRManagement team</p>
+                        <p style="padding-bottom: 16px">Congratulation for reset your DocInsight account's password successfully. Welcome back to our team.</p>
+                        <p style="padding-bottom: 16px">We look forward to seeing you,<br>The DocInsight team</p>
                         </div>
                     </div>
                     <div style="padding-top: 20px; color: rgb(153, 153, 153); text-align: center;">
