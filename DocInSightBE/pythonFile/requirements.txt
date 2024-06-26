@@ -1,6 +1,0 @@
-lungs-finder
-shap
-numpy
-matplotlib
-opencv-python
-tensorflow==2.3.1

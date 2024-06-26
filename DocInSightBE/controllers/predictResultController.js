@@ -1,8 +1,5 @@
 import NotFoundError from "../errors/notFoundError.js";
-import InternalServerError from "../errors/internalServerError.js";
-import cloudinary from "../helper/imageUpload.js";
 import PredictResult from "../models/PredictResult.js";
-import executePython from "../middlewares/excutePython.js";
 import BadRequestError from "../errors/badRequestError.js";
 import Patient from "../models/Patient.js";
 
@@ -63,37 +60,15 @@ const getResult = async (req, res) => {
 };
 
 const postResult = async (req, res) => {
-    const { patientId } = req.body;
+    const { patientId, 
+        inputImage, 
+        resultImage,
+        coronaPercent,
+        normalPercent,
+        pneumoniaPercent,
+        tuberculosisPercent, } = req.body;
         try {
-
-        const predictResult = new PredictResult();
-
-        let input;
-        if (req.file) {
-            try {
-                input = await cloudinary.uploader.upload(req.file.path, {
-                    public_id: `${predictResult._id}_input`,
-                    width: 500,
-                    height: 500,
-                    crop: "fill",
-                });
-            } catch (err) {
-                console.log(err);
-                throw new InternalServerError(
-                    "Unable to upload avatar, please try again"
-                );
-            }
-        }
-        let inputImage;
-        // check if image upload or not
-        if (input) {
-            inputImage = input.url;
-        }
-        const resultPredict = await executePython('pythonFile/model.py', [inputImage]);
-        if(!resultPredict) throw new BadRequestError("Error when predict");
-        let cleanedResult = resultPredict.replace(/\\r\\n/g, '');
-        let predictions = cleanedResult.match(/\d+\.\d+/g);
-        console.log({predictions});
+        let predictions = [coronaPercent, normalPercent, pneumoniaPercent, tuberculosisPercent];
         const class_names = ["Corona Virus Disease", "Normal", "Pneumonia", "Tuberculosis"]
         predictions = predictions.map(p => parseFloat(p));
         const maxPrediction = Math.max(...predictions);
@@ -103,36 +78,16 @@ const postResult = async (req, res) => {
         } else {
             console.log("Result label undefined");
         }
-        // upload result init
-        let result;
-        var result_path = "pythonFile/result.png"
-        try {
-            result = await cloudinary.uploader.upload(result_path, {
-                public_id: `${predictResult._id}_result`,
-                width: 500,
-                height: 500,
-                crop: "fill",
-            });
-        } catch (err) {
-            console.log(err);
-            throw new InternalServerError(
-                "Unable to upload avatar, please try again"
-            );
-        }
-        let resultImage;
-        // check if image upload or not
-        if (result) {
-            resultImage = result.url;
-        }
+        
         const newResult = new PredictResult({
             patientId,
             inputImage,
-            resultImage: resultImage,
+            resultImage,
             resultLabel: resultLabel,
-            coronaPercent: predictions[0],
-            normalPercent: predictions[1],
-            pneumoniaPercent: predictions[2],
-            tuberculosisPercent: predictions[3],
+            coronaPercent: coronaPercent,
+            normalPercent: normalPercent,
+            pneumoniaPercent: pneumoniaPercent,
+            tuberculosisPercent: tuberculosisPercent,
         });
 
         const createdResult = await newResult.save();
