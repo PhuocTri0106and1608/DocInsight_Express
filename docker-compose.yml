@@ -8,16 +8,16 @@ services:
       dockerfile: Dockerfile
     container_name: medicalxai-api
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=**********
       - PORT=3001
-      - URL_DATABASE=mongodb+srv://21521571:07kUEfsLdpZjAklR@cluster0.hmcpcf4.mongodb.net/DocInSight
-      - ACCESS_TOKEN_SECRET=csnklcndslkncaojowiejoijcsdj31421
-      - REFRESH_TOKEN_SECRET=csjancjknsjancklajcoiweji829u8943rud
-      - CLOUDINARY_USER_NAME=dano2vyry
-      - CLOUDINARY_API_KEY=152882116935543
-      - CLOUDINARY_API_SECRET=M8Bsl2PXcG4umT-zKOTO718RXuI
-      - MAILTRAP_USERNAME=HRManagement2003@gmail.com
-      - MAILTRAP_PASSWORD=yhej kkvh rdxt eply
+      - URL_DATABASE=************************
+      - ACCESS_TOKEN_SECRET=*************
+      - REFRESH_TOKEN_SECRET=****************
+      - CLOUDINARY_USER_NAME=***************
+      - CLOUDINARY_API_KEY=*************
+      - CLOUDINARY_API_SECRET=**************
+      - MAILTRAP_USERNAME=***************
+      - MAILTRAP_PASSWORD=*******************8
     ports:
       - '3001:80'
     restart: always
